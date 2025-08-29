@@ -52,6 +52,19 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// 모임 앱 전용 색상
+				income: {
+					DEFAULT: 'hsl(var(--income))',
+					light: 'hsl(var(--income-light))'
+				},
+				expense: {
+					DEFAULT: 'hsl(var(--expense))',
+					light: 'hsl(var(--expense-light))'
+				},
+				balance: {
+					DEFAULT: 'hsl(var(--balance))',
+					light: 'hsl(var(--balance-light))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

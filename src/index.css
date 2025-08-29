@@ -8,33 +8,47 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* 고령층 친화적 따뜻한 색상 시스템 */
+    --background: 35 20% 98%;
+    --foreground: 220 25% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 220 25% 25%;
+    --primary-foreground: 35 20% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 35 15% 92%;
+    --secondary-foreground: 220 25% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 35 10% 95%;
+    --muted-foreground: 220 15% 50%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 35 25% 88%;
+    --accent-foreground: 220 25% 25%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 35 15% 88%;
+    --input: 35 15% 92%;
+    --ring: 220 25% 25%;
+
+    /* 모임 앱 전용 색상 */
+    --income: 130 60% 45%;       /* 회비 - 초록 */
+    --income-light: 130 50% 85%;
+    --expense: 0 70% 55%;        /* 지출 - 빨강 */
+    --expense-light: 0 50% 90%;
+    --balance: 220 70% 50%;      /* 잔액 - 파랑 */
+    --balance-light: 220 50% 90%;
+    
+    /* 큰 터치 영역을 위한 스페이싱 */
+    --touch-target: 44px;
+    --large-text: 18px;
+    --xlarge-text: 24px;
 
     --radius: 0.5rem;
 
@@ -56,33 +70,41 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 220 25% 15%;
+    --foreground: 35 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 20% 18%;
+    --card-foreground: 35 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 20% 18%;
+    --popover-foreground: 35 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 35 20% 95%;
+    --primary-foreground: 220 25% 15%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 220 20% 25%;
+    --secondary-foreground: 35 20% 95%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 220 15% 22%;
+    --muted-foreground: 220 10% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 220 20% 25%;
+    --accent-foreground: 35 20% 95%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 220 15% 25%;
+    --input: 220 15% 25%;
+    --ring: 35 20% 95%;
+
+    /* 다크모드 전용 색상 */
+    --income: 130 50% 50%;
+    --income-light: 130 30% 25%;
+    --expense: 0 60% 60%;
+    --expense-light: 0 30% 25%;
+    --balance: 220 60% 65%;
+    --balance-light: 220 30% 25%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -101,5 +123,20 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-size: var(--large-text);
+    line-height: 1.6;
   }
+
+  /* 고령층을 위한 기본 스타일 */
+  h1 { font-size: 2rem; font-weight: 700; }
+  h2 { font-size: 1.75rem; font-weight: 600; }
+  h3 { font-size: 1.5rem; font-weight: 600; }
+  
+  .touch-target {
+    min-height: var(--touch-target);
+    min-width: var(--touch-target);
+  }
+  
+  .large-text { font-size: var(--large-text); }
+  .xlarge-text { font-size: var(--xlarge-text); }
 }
