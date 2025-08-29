@@ -122,23 +122,22 @@ export default function MeetingEdit() {
   const totals = calculateTotals();
 
   return (
-    <div className="min-h-screen bg-background p-4">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-background">
+      <div className="max-w-md mx-auto space-y-4 p-4">
         {/* 헤더 */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between sticky top-0 bg-background z-10 py-2">
           <Button
             variant="ghost"
-            size="lg"
+            size="sm"
             onClick={() => navigate("/")}
             className="gap-2"
           >
-            <ArrowLeft className="w-5 h-5" />
-            목록으로
+            <ArrowLeft className="w-4 h-4" />
           </Button>
           
-          <Button variant="default" size="lg" onClick={handleSave} className="gap-2">
-            <Save className="w-5 h-5" />
-            저장하기
+          <Button variant="default" size="sm" onClick={handleSave} className="gap-2">
+            <Save className="w-4 h-4" />
+            저장
           </Button>
         </div>
 

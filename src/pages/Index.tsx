@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { MeetingCard } from "@/components/MeetingCard";
 import { Meeting } from "@/types/meeting";
-import { Plus, Heart } from "lucide-react";
+import { HomeBanner } from "@/components/HomeBanner";
+import { Plus, ArrowUpDown } from "lucide-react";
 
 // 임시 데이터
 const mockMeetings: Meeting[] = [
@@ -63,7 +64,18 @@ const mockMeetings: Meeting[] = [
 
 const Index = () => {
   const navigate = useNavigate();
-  const [meetings] = useState<Meeting[]>(mockMeetings);
+  const [meetings, setMeetings] = useState<Meeting[]>(mockMeetings);
+  const [sortOrder, setSortOrder] = useState<'latest' | 'oldest'>('latest');
+  const [homeBanner, setHomeBanner] = useState({
+    groupName: "우리 모임",
+    backgroundImage: undefined as string | undefined,
+  });
+
+  const sortedMeetings = [...meetings].sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return sortOrder === 'latest' ? dateB - dateA : dateA - dateB;
+  });
 
   const handleViewMeeting = (meetingId: string) => {
     navigate(`/meeting/${meetingId}`);
@@ -73,40 +85,55 @@ const Index = () => {
     navigate("/edit/new");
   };
 
+  const toggleSortOrder = () => {
+    setSortOrder(prev => prev === 'latest' ? 'oldest' : 'latest');
+  };
+
+  const handleBannerUpdate = (data: { groupName?: string; backgroundImage?: string }) => {
+    setHomeBanner(prev => ({ ...prev, ...data }));
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      {/* 헤더 */}
-      <header className="bg-card shadow-sm border-b">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <Heart className="w-8 h-8 text-balance" />
-            <h1 className="text-3xl font-bold text-foreground">우리 모임</h1>
-          </div>
-          <p className="text-center text-muted-foreground text-lg">
-            소중한 추억과 함께하는 친목 모임 기록
-          </p>
-        </div>
-      </header>
-
       {/* 메인 컨텐츠 */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* 새 모임 생성 버튼 */}
-        <div className="mb-8 text-center">
-          <Button
-            variant="large"
-            size="xl"
-            onClick={handleCreateNew}
-            className="gap-3 shadow-lg"
-          >
-            <Plus className="w-6 h-6" />
-            새 모임 기록하기
-          </Button>
-        </div>
+      <main className="max-w-md mx-auto px-4 py-6 space-y-6">
+        {/* 홈 배너 */}
+        <HomeBanner 
+          groupName={homeBanner.groupName}
+          backgroundImage={homeBanner.backgroundImage}
+          onUpdate={handleBannerUpdate}
+        />
+
+        {/* 모임 추가 버튼 */}
+        <Button
+          onClick={handleCreateNew}
+          className="w-full h-14 text-lg font-semibold"
+          size="lg"
+        >
+          <Plus className="w-5 h-5 mr-2" />
+          모임 추가
+        </Button>
+
+        {/* 정렬 버튼 */}
+        {meetings.length > 0 && (
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-semibold">모임 목록</h2>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleSortOrder}
+              className="gap-2"
+            >
+              <ArrowUpDown className="w-4 h-4" />
+              {sortOrder === 'latest' ? '최신순' : '과거순'}
+            </Button>
+          </div>
+        )}
 
         {/* 모임 목록 */}
-        {meetings.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {meetings.map((meeting) => (
+        {sortedMeetings.length > 0 ? (
+          <div className="space-y-4">
+            {sortedMeetings.map((meeting) => (
               <MeetingCard
                 key={meeting.id}
                 meeting={meeting}
@@ -117,33 +144,23 @@ const Index = () => {
         ) : (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">📝</div>
-            <h2 className="text-2xl font-semibold mb-2 text-muted-foreground">
+            <h2 className="text-xl font-semibold mb-2 text-muted-foreground">
               아직 모임 기록이 없습니다
             </h2>
-            <p className="text-lg text-muted-foreground mb-6">
+            <p className="text-muted-foreground mb-6">
               첫 번째 모임을 기록해보세요!
             </p>
             <Button
-              variant="large"
-              size="xl"
               onClick={handleCreateNew}
-              className="gap-3"
+              className="w-full h-14 text-lg font-semibold"
+              size="lg"
             >
-              <Plus className="w-6 h-6" />
+              <Plus className="w-5 h-5 mr-2" />
               모임 기록 시작하기
             </Button>
           </div>
         )}
       </main>
-
-      {/* 푸터 */}
-      <footer className="bg-muted mt-16 py-8">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-muted-foreground">
-            모임의 소중한 순간들을 기록하고 공유해보세요 ❤️
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };

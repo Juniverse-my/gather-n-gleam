@@ -2,141 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    /* 고령층 친화적 따뜻한 색상 시스템 */
-    --background: 35 20% 98%;
-    --foreground: 220 25% 15%;
-
+    --background: 0 0% 98%;
+    --foreground: 0 0% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 15%;
-
+    --card-foreground: 0 0% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 15%;
-
-    --primary: 220 25% 25%;
-    --primary-foreground: 35 20% 98%;
-
-    --secondary: 35 15% 92%;
-    --secondary-foreground: 220 25% 25%;
-
-    --muted: 35 10% 95%;
-    --muted-foreground: 220 15% 50%;
-
-    --accent: 35 25% 88%;
-    --accent-foreground: 220 25% 25%;
-
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 35 15% 88%;
-    --input: 35 15% 92%;
-    --ring: 220 25% 25%;
-
-    /* 모임 앱 전용 색상 */
-    --income: 130 60% 45%;       /* 회비 - 초록 */
-    --income-light: 130 50% 85%;
-    --expense: 0 70% 55%;        /* 지출 - 빨강 */
-    --expense-light: 0 50% 90%;
-    --balance: 220 70% 50%;      /* 잔액 - 파랑 */
-    --balance-light: 220 50% 90%;
-    
-    /* 큰 터치 영역을 위한 스페이싱 */
-    --touch-target: 44px;
-    --large-text: 18px;
-    --xlarge-text: 24px;
-
+    --popover-foreground: 0 0% 15%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 0 0% 15%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 210 40% 94%;
+    --accent-foreground: 0 0% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* 회계 색상 시스템 */
+    --income: 142 76% 36%;
+    --income-light: 142 76% 95%;
+    --expense: 0 84% 60%;
+    --expense-light: 0 84% 95%;
+    --balance: 217 91% 60%;
+    --balance-light: 217 91% 95%;
   }
 
   .dark {
-    --background: 220 25% 15%;
-    --foreground: 35 20% 95%;
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 217 19% 27%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 215 28% 17%;
+    --muted-foreground: 217 19% 50%;
+    --accent: 217 19% 27%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 217 91% 60%;
 
-    --card: 220 20% 18%;
-    --card-foreground: 35 20% 95%;
-
-    --popover: 220 20% 18%;
-    --popover-foreground: 35 20% 95%;
-
-    --primary: 35 20% 95%;
-    --primary-foreground: 220 25% 15%;
-
-    --secondary: 220 20% 25%;
-    --secondary-foreground: 35 20% 95%;
-
-    --muted: 220 15% 22%;
-    --muted-foreground: 220 10% 70%;
-
-    --accent: 220 20% 25%;
-    --accent-foreground: 35 20% 95%;
-
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 15% 25%;
-    --input: 220 15% 25%;
-    --ring: 35 20% 95%;
-
-    /* 다크모드 전용 색상 */
-    --income: 130 50% 50%;
-    --income-light: 130 30% 25%;
-    --expense: 0 60% 60%;
-    --expense-light: 0 30% 25%;
-    --balance: 220 60% 65%;
-    --balance-light: 220 30% 25%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* 회계 색상 시스템 */
+    --income: 142 76% 36%;
+    --income-light: 142 76% 15%;
+    --expense: 0 84% 60%;
+    --expense-light: 0 84% 15%;
+    --balance: 217 91% 60%;
+    --balance-light: 217 91% 15%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
-
+  
   body {
-    @apply bg-background text-foreground;
-    font-size: var(--large-text);
-    line-height: 1.6;
+    @apply bg-background text-foreground font-pretendard;
   }
-
-  /* 고령층을 위한 기본 스타일 */
-  h1 { font-size: 2rem; font-weight: 700; }
-  h2 { font-size: 1.75rem; font-weight: 600; }
-  h3 { font-size: 1.5rem; font-weight: 600; }
-  
-  .touch-target {
-    min-height: var(--touch-target);
-    min-width: var(--touch-target);
-  }
-  
-  .large-text { font-size: var(--large-text); }
-  .xlarge-text { font-size: var(--xlarge-text); }
 }

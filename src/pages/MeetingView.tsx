@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Meeting, MeetingComment } from "@/types/meeting";
-import { ArrowLeft, Calendar, MapPin, Share2, Edit, MessageCircle } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Share2, Edit, MessageCircle, Plus, Camera } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // 임시 데이터
@@ -94,38 +94,43 @@ export default function MeetingView() {
     setNewComment("");
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // 실제로는 서버에 업로드하고 photos 배열에 추가
+    toast({
+      title: "이미지가 추가되었습니다",
+      description: "사진이 갤러리에 추가되었습니다.",
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-background p-4">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-background">
+      <div className="max-w-md mx-auto space-y-4 p-4">
         {/* 헤더 */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between sticky top-0 bg-background z-10 py-2">
           <Button
             variant="ghost"
-            size="lg"
+            size="sm"
             onClick={() => navigate("/")}
             className="gap-2"
           >
-            <ArrowLeft className="w-5 h-5" />
-            목록으로
+            <ArrowLeft className="w-4 h-4" />
           </Button>
           
           <div className="flex gap-2">
-            <Button variant="outline" size="lg" onClick={handleShare}>
-              <Share2 className="w-5 h-5" />
-              공유하기
+            <Button variant="outline" size="sm" onClick={handleShare}>
+              <Share2 className="w-4 h-4" />
             </Button>
-            <Button variant="default" size="lg" onClick={() => navigate(`/edit/${meeting.id}`)}>
-              <Edit className="w-5 h-5" />
-              수정하기
+            <Button variant="default" size="sm" onClick={() => navigate(`/edit/${meeting.id}`)}>
+              <Edit className="w-4 h-4" />
             </Button>
           </div>
         </div>
 
         {/* 모임 정보 */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">{meeting.title}</CardTitle>
-            <div className="flex items-center gap-4 text-muted-foreground">
+          <CardContent className="p-6">
+            <h1 className="text-xl font-bold mb-4">{meeting.title}</h1>
+            <div className="space-y-2 text-sm text-gray-600">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 {meeting.date}
@@ -135,7 +140,7 @@ export default function MeetingView() {
                 {meeting.location}
               </div>
             </div>
-          </CardHeader>
+          </CardContent>
         </Card>
 
         {/* 회계 명세서 */}
@@ -219,31 +224,52 @@ export default function MeetingView() {
         </Card>
 
         {/* 사진 갤러리 */}
-        {meeting.photos.length > 0 && (
-          <Card>
-            <CardHeader>
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
               <CardTitle>사진 갤러리</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <Button variant="outline" size="sm" asChild className="cursor-pointer">
+                <label htmlFor="photoUpload">
+                  <Plus className="w-4 h-4 mr-1" />
+                  추가
+                </label>
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <input
+              id="photoUpload"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+            {meeting.photos.length > 0 ? (
+              <div className="grid grid-cols-2 gap-3">
                 {meeting.photos.map((photo) => (
                   <div key={photo.id} className="space-y-2">
                     <img
                       src={photo.url}
                       alt={photo.caption}
-                      className="w-full aspect-square object-cover rounded-lg shadow-md"
+                      className="w-full aspect-square object-cover rounded-lg"
                     />
                     {photo.caption && (
-                      <p className="text-sm text-center text-muted-foreground">
+                      <p className="text-xs text-center text-gray-600">
                         {photo.caption}
                       </p>
                     )}
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
-        )}
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Camera className="w-8 h-8 mx-auto mb-2" />
+                <p className="text-sm">아직 사진이 없습니다</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* 댓글 섹션 */}
         <Card>

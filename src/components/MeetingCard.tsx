@@ -1,83 +1,76 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Meeting } from "@/types/meeting";
-import { Calendar, MapPin, Users } from "lucide-react";
-import meetingPlaceholder from "@/assets/meeting-placeholder.jpg";
+import { Calendar, MapPin, Users, Camera } from "lucide-react";
 
 interface MeetingCardProps {
   meeting: Meeting;
   onView: (meetingId: string) => void;
 }
 
-export function MeetingCard({ meeting, onView }: MeetingCardProps) {
-  const thumbnailPhoto = meeting.photos.find(p => p.isThumbnail) || meeting.photos[0];
-  
+export const MeetingCard = ({ meeting, onView }: MeetingCardProps) => {
   const totalFees = meeting.participants.reduce((sum, p) => sum + p.fee, 0);
   const totalExpenses = meeting.expenses.reduce((sum, e) => sum + e.amount, 0);
-  const balance = totalFees - totalExpenses;
+  const totalDonations = meeting.donations.reduce((sum, d) => sum + d.amount, 0);
+  const balance = totalFees + totalDonations - totalExpenses;
+
+  const thumbnailPhoto = meeting.photos.find(photo => photo.isThumbnail) || meeting.photos[0];
 
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer">
-      <div className="aspect-video relative bg-muted">
-        {thumbnailPhoto ? (
-          <img 
-            src={thumbnailPhoto.url} 
-            alt={meeting.title}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <img 
-            src={meetingPlaceholder} 
-            alt={`${meeting.title} 모임 사진`}
-            className="w-full h-full object-cover"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <div className="absolute bottom-4 left-4 text-white">
-          <h3 className="text-xl font-semibold mb-1">{meeting.title}</h3>
-          <div className="flex items-center gap-2 text-sm opacity-90">
-            <Calendar className="w-4 h-4" />
-            {meeting.date}
+    <Card 
+      className="cursor-pointer hover:shadow-md transition-all duration-200 overflow-hidden bg-white border border-gray-200 rounded-xl"
+      onClick={() => onView(meeting.id)}
+    >
+      <div className="flex gap-4 p-4">
+        {/* 썸네일 이미지 */}
+        <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden">
+          {thumbnailPhoto ? (
+            <img
+              src={thumbnailPhoto.url}
+              alt={thumbnailPhoto.caption || meeting.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+              <Camera className="w-6 h-6 text-gray-400" />
+            </div>
+          )}
+        </div>
+
+        {/* 콘텐츠 */}
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-gray-900 text-lg mb-1 truncate">
+            {meeting.title}
+          </h3>
+          
+          <div className="space-y-1 mb-2">
+            <div className="flex items-center gap-1 text-sm text-gray-600">
+              <Calendar className="w-3 h-3" />
+              <span>{meeting.date}</span>
+            </div>
+            <div className="flex items-center gap-1 text-sm text-gray-600">
+              <MapPin className="w-3 h-3" />
+              <span className="truncate">{meeting.location}</span>
+            </div>
+            <div className="flex items-center gap-1 text-sm text-gray-600">
+              <Users className="w-3 h-3" />
+              <span>{meeting.participants.length}명</span>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <span className={`text-sm font-medium ${
+              balance >= 0 ? 'text-green-600' : 'text-red-600'
+            }`}>
+              잔액 {balance.toLocaleString()}원
+            </span>
+            {meeting.comments.length > 0 && (
+              <span className="text-xs text-gray-500">
+                댓글 {meeting.comments.length}
+              </span>
+            )}
           </div>
         </div>
       </div>
-      
-      <CardContent className="p-6">
-        <div className="flex items-center gap-2 text-muted-foreground mb-4">
-          <MapPin className="w-4 h-4" />
-          <span className="text-base">{meeting.location}</span>
-        </div>
-        
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="text-center p-3 bg-income-light rounded-lg">
-            <div className="text-sm text-muted-foreground">회비</div>
-            <div className="text-lg font-semibold text-income">
-              {totalFees.toLocaleString()}원
-            </div>
-          </div>
-          <div className="text-center p-3 bg-expense-light rounded-lg">
-            <div className="text-sm text-muted-foreground">지출</div>
-            <div className="text-lg font-semibold text-expense">
-              {totalExpenses.toLocaleString()}원
-            </div>
-          </div>
-          <div className="text-center p-3 bg-balance-light rounded-lg">
-            <div className="text-sm text-muted-foreground">잔액</div>
-            <div className="text-lg font-semibold text-balance">
-              {balance.toLocaleString()}원
-            </div>
-          </div>
-        </div>
-        
-        <Button 
-          onClick={() => onView(meeting.id)}
-          variant="large" 
-          size="xl" 
-          className="w-full"
-        >
-          모임 상세보기
-        </Button>
-      </CardContent>
     </Card>
   );
-}
+};
